@@ -1,0 +1,8 @@
+{
+  "name": "eprmsMobile",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "a7172c1b"
+}
