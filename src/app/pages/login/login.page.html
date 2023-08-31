@@ -1,0 +1,26 @@
+<ion-content>
+  <ion-card>
+    <div class="container">
+      <img alt="SRWD logo" src="../../../assets/icon/srwdlogonewtrans.png" max-width="100%" height="200px"/>
+      <ion-text color="light">
+        <h2>Santa Rosa Water District</h2>
+      </ion-text>
+    </div>
+    <ion-card-header>
+      <ion-card-title>Login</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item>
+        <ion-input labelPlacement="stacked" type="text" [(ngModel)]="username" label="Username" placeholder="Enter Username"></ion-input>
+      </ion-item>
+      <ion-item class="ion-padding-bottom">
+        <ion-input labelPlacement="stacked" type="password" [(ngModel)]="password" label="Password" placeholder="Enter Password"></ion-input>
+      </ion-item>
+      <ion-button expand="full" (click)="onLogin()" >Login</ion-button>
+    </ion-card-content>
+  </ion-card>
+  <div class="spinner-container">
+    <ion-spinner name="crescent" *ngIf="isLoading" class="custom-spinner"></ion-spinner>
+  </div>
+</ion-content>

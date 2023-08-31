@@ -1,0 +1,90 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>{{ headerText }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()" [strong]="true">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-grid class="custom-table">
+          <ion-row class="table-header">
+            <ion-col class="header-col" size="3" *ngFor="let col of displayedColumns" color="primary">{{ col }}</ion-col>
+          </ion-row>
+          <ion-row class="table-row" *ngFor="let prDetail of result">
+            <ng-container *ngFor="let pritem of prDetail.items">
+              <ion-col class="items" size="3" [class.custom-bold]="pritem.bold_text === 'true' ? true : false">{{ pritem.pr_items }}</ion-col>
+              <ion-col class="items" size="3" [class.custom-bold]="pritem.bold_text === 'true' ? true : false">{{ pritem.pr_quantity }}</ion-col>
+              <ion-col class="items" size="3" [class.custom-bold]="pritem.bold_text === 'true' ? true : false">{{ pritem.pr_cost }}</ion-col>
+              <ion-col class="items" size="3" [class.custom-bold]="pritem.bold_text === 'true' ? true : false">{{ pritem.pr_unit }}</ion-col>
+              <ng-container *ngFor="let prsubitem of pritem.pr_subitems">
+                <ion-col size="1" class="subitems"></ion-col>
+                <ion-col size="4" class="subitems">{{ prsubitem.dpr_items }}</ion-col>
+                <ion-col size="2" class="subitems">{{ prsubitem.dpr_quantity }}</ion-col>
+                <ion-col size="3" class="subitems">{{ prsubitem.dpr_cost }}</ion-col>
+                <ion-col size="2" class="subitems">{{ prsubitem.dpr_unit }}</ion-col>
+              </ng-container>
+            </ng-container>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+    </ion-row>
+    <form [formGroup]="prDetailsForm">
+      <ion-row>
+        <ion-col >
+          <ion-input fill="outline" labelPlacement="stacked" label="Purpose" placeholder="Purpose" formControlName="pr_purpose"></ion-input>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="prDetailsForm.get('remarks').value !== null">
+        <ion-input fill="outline" labelPlacement="stacked" label="Remarks" placeholder="Remarks" formControlName="remarks"></ion-input>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-input fill="outline" labelPlacement="stacked" label="Current Status" placeholder="Current Status" formControlName="pr_status"></ion-input>
+        </ion-col>
+        <ion-col>
+          <ion-input fill="outline" labelPlacement="stacked" label="Date Created" placeholder="Date Created" formControlName="pr_dateCreated"></ion-input>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button color="success" (click)="viewHistoryPR(prNumber)">
+            Take Action
+            <ion-icon slot="end" name="alert-circle-outline"></ion-icon>
+          </ion-button>
+          <!-- <button *ngIf="isShowReroute === true" mat-flat-button color="primary" (click)="onUpdateApproveStatus('Re-route', true)">
+            Re-route
+          </button> -->
+          <ion-button color="primary" *ngIf="prDetailsForm.get('pr_status').value === 'For DM Approval' && access === 'Encoder'" (click)="editPR()">
+            Edit PR
+          </ion-button>
+          <ion-button color="primary" *ngIf="prequeststatus === 'For Printing'" (click)="onPrintPr()" >
+            Print PR<span *ngIf="print_counter !== 0">({{print_counter}})</span>
+          </ion-button>
+          <ion-button color="success" *ngIf="isShowApproveDisapprove === true" (click)="onUpdateApproveStatus('Approve', false)" [disabled]="isBtnApproval">
+            Approve PR
+            <!-- <img src="./assets/accept.png" width="40px" height="40px" alt="image"> -->
+          </ion-button>
+          <ion-button color="warning" *ngIf="isShowApproveDisapprove === true" (click)="onUpdateApproveStatus('Disapprove', true)" [disabled]="isBtnApproval">
+            Disapprove PR
+            <!-- <img src="./assets/reject.PNG" width="40px" height="40px" alt="image"> -->
+          </ion-button>
+          <ion-button color="warning" *ngIf="isShowCancelled === true" (click)="onUpdateApproveStatus('Cancelled', true)" [disabled]="isBtnApproval">
+            Cancel PR
+          </ion-button>
+          <ion-button color="warning" *ngIf="prequeststatus === 'For Printing' && access === 'Final Approver'" (click)="onUpdateApproveStatus('Disapprove', true)">
+            Tag as Disapproved by GM
+          </ion-button>
+          <ion-button color="success" *ngIf="prequeststatus === 'For Printing' && access === 'Final Approver'" (click)="onUpdateApproveStatus('Approved', false)">
+            Tag as Approved by GM
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </form>
+  </ion-grid>
+    <!-- <ion-input labelPlacement="stacked" label="Enter your Emp_ID" placeholder="Emp_ID" formControlName="Emp_ID"></ion-input> -->
+</ion-content>

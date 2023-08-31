@@ -1,0 +1,37 @@
+<!-- <ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Dashboard</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <app-user-menu-profile></app-user-menu-profile>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header> -->
+<app-header [headerText]="headerText"></app-header>
+<ion-content [fullscreen]="true">
+  <div id="container">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <app-pr-created></app-pr-created>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <app-pr-disapproved></app-pr-disapproved>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <h3>Total Purchase Requests Created per Month</h3>
+          <app-pr-created-per-month></app-pr-created-per-month>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <!-- <strong class="capitalize">Dashboard</strong>
+    <p>Explore <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p> -->
+  </div>
+
+</ion-content>

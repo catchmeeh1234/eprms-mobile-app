@@ -1,0 +1,12 @@
+<ion-grid fxLayout="row"  class="dashcard mat-elevation-z4 ">
+  <ion-row>
+    <ion-col *ngFor="let d of dashCard">
+      <ion-card [style.background]="d?.colorDark">
+        <ion-card-header >
+          <ion-card-title>{{ d?.number }}</ion-card-title>
+          <ion-card-subtitle>{{d?.title}}</ion-card-subtitle>
+        </ion-card-header>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-grid>

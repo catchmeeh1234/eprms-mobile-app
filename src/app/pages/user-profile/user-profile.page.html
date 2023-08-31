@@ -1,0 +1,43 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Settings</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button [disabled]="true"></ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list-header>Profile</ion-list-header>
+  <ion-list [inset]="true">
+    <ion-item>
+      <ion-label>ID</ion-label>
+      <ion-text slot="end" color="medium">{{sessionData.id}}</ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-label>Full name</ion-label>
+      <ion-text slot="end" color="medium">{{sessionData.fullname}}</ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-label>Division</ion-label>
+      <ion-text slot="end" color="medium">{{sessionData.division}}</ion-text>
+    </ion-item>
+  </ion-list>
+  <ion-list-header>Appearance</ion-list-header>
+  <ion-list [inset]="true">
+    <ion-item>
+      <ion-toggle [(ngModel)]="themeToggle" (ionChange)="toggleChange($event)" justify="space-between"
+        >Dark Mode</ion-toggle
+      >
+    </ion-item>
+  </ion-list>
+  <ion-list [inset]="true" class="ion-no-padding">
+    <ion-item [button]="true" class="ion-text-center" color="danger" (click)="logout()">
+      <ion-label>Log out</ion-label>
+      <!-- <ion-text slot="end" color="medium">9:00 PM to 8:00 AM</ion-text> -->
+    </ion-item>
+  </ion-list>
+</ion-content>

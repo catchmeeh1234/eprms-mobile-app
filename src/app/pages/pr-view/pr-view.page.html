@@ -1,0 +1,30 @@
+<app-header [headerText]="headerText"></app-header>
+
+
+<ion-content [fullscreen]="true">
+  <ion-searchbar (ionInput)="onSearch($event)"></ion-searchbar>
+  <ion-list [inset]="true">
+    <ion-item [button]="false" slot="header" *ngFor="let prDetail of prService.dataSourcePRTable | prFilter: searchText">
+      <ion-thumbnail slot="start">
+        <div class="avatar" [style.background-color]="prDetail.division_color_code">
+          {{ getInitials(prDetail.pr_requestor) }}
+        </div>
+      </ion-thumbnail>
+      <ion-label>{{ prDetail.pr_no }}
+        <ion-text>
+          <p>{{ prDetail.pr_requestor }}</p>
+          <p>{{ prDetail.pr_status }}</p>
+        </ion-text>
+      </ion-label>
+      <ion-button slot="end" fill="none" (click)="viewpritems(prDetail.pr_no)">
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+  <ion-infinite-scroll (ionInfinite)="loadPR_Details($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data..."></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+  <div class="spinner-container">
+    <ion-spinner name="crescent" *ngIf="isLoading" class="custom-spinner"></ion-spinner>
+  </div>
+</ion-content>

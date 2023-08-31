@@ -1,0 +1,109 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>PR Details({{prNumber}})</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <app-user-menu-profile></app-user-menu-profile>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <h1 class="ion-padding" *ngIf="prTitle !== ''">{{ prTitle }}</h1>
+  <ion-list [inset]="true">
+    <ion-accordion-group [multiple]="true">
+      <ion-accordion *ngFor="let item of pr_items" [value]="item.prItems_id" [toggleIcon]="item.pr_subitems.length === 0 ? 'none' : 'chevron-down'">
+        <ion-item [button]="false" slot="header">
+          <ion-thumbnail slot="start">
+            <!-- <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" /> -->
+            <ion-icon name="cube" size="large"></ion-icon>
+            <!-- <div class="avatar" [style.background-color]="'red'">
+              JM
+            </div> -->
+          </ion-thumbnail>
+          <ion-label>{{ item.pr_items }}
+            <ion-text>
+              <p><span *ngIf="item.pr_quantity !== '0'">Qty:{{ item.pr_quantity }} • </span><span *ngIf="item.pr_unit !== '-'">{{ item.pr_unit }}</span></p>
+              <p *ngIf="item.pr_cost !== '.00'">Cost: {{ item.pr_cost }}</p>
+            </ion-text>
+          </ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content" *ngIf="item.pr_subitems.length !== 0">
+          <ion-list>
+            <ion-item [button]="false" slot="header" *ngFor="let subitem of item.pr_subitems">
+              <ion-thumbnail slot="start">
+                <ion-icon name="cube" size="medium"></ion-icon>
+              </ion-thumbnail>
+              <ion-label>{{ subitem.dpr_items }}
+                <ion-text>
+                  <p><span *ngIf="subitem.dpr_quantity !== '0'">Qty:{{ subitem.dpr_quantity }} • </span><span *ngIf="subitem.dpr_unit !== '-'">Unit: {{ subitem.dpr_unit }}</span></p>
+                  <p *ngIf="subitem.dpr_cost !== '.00'">Cost: {{ subitem.dpr_cost }}</p>
+                </ion-text>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
+  </ion-list>
+
+  <ion-grid>
+    <form [formGroup]="prDetailsForm">
+      <ion-row>
+        <ion-col >
+          <ion-input fill="outline" labelPlacement="stacked" label="Purpose" placeholder="Purpose" formControlName="pr_purpose"></ion-input>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="prDetailsForm.get('remarks').value !== null">
+        <ion-input fill="outline" labelPlacement="stacked" label="Remarks" placeholder="Remarks" formControlName="remarks"></ion-input>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-input fill="outline" labelPlacement="stacked" label="Current Status" placeholder="Current Status" formControlName="pr_status"></ion-input>
+        </ion-col>
+        <ion-col>
+          <ion-input fill="outline" labelPlacement="stacked" label="Date Created" placeholder="Date Created" formControlName="pr_dateCreated"></ion-input>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <app-take-action [prNum]="prNumber"></app-take-action>
+          <!-- <ion-button color="primary" (click)="presentTakeAction(prNumber)" expand="full">
+            Take Action
+            <ion-icon slot="end" name="alert-circle-outline"></ion-icon>
+          </ion-button> -->
+          <!-- <button *ngIf="isShowReroute === true" mat-flat-button color="primary" (click)="onUpdateApproveStatus('Re-route', true)">
+            Re-route
+          </button> -->
+          <ion-button color="primary" *ngIf="prDetailsForm.get('pr_status').value === 'For DM Approval' && access === 'Encoder'" (click)="editPR()">
+            Edit PR
+          </ion-button>
+          <ion-button color="primary" *ngIf="prequeststatus === 'For Printing'" (click)="onPrintPr()" >
+            Print PR<span *ngIf="print_counter !== 0">({{print_counter}})</span>
+          </ion-button>
+          <ion-button color="success" *ngIf="isShowApproveDisapprove === true" (click)="onUpdateApproveStatus('Approve', false)" [disabled]="isBtnApproval">
+            Approve PR
+            <!-- <img src="./assets/accept.png" width="40px" height="40px" alt="image"> -->
+          </ion-button>
+          <ion-button color="warning" *ngIf="isShowApproveDisapprove === true" (click)="onUpdateApproveStatus('Disapprove', true)" [disabled]="isBtnApproval">
+            Disapprove PR
+            <!-- <img src="./assets/reject.PNG" width="40px" height="40px" alt="image"> -->
+          </ion-button>
+          <ion-button color="warning" *ngIf="isShowCancelled === true" (click)="onUpdateApproveStatus('Cancelled', true)" [disabled]="isBtnApproval">
+            Cancel PR
+          </ion-button>
+          <ion-button color="warning" *ngIf="prequeststatus === 'For Printing' && access === 'Final Approver'" (click)="onUpdateApproveStatus('Disapprove', true)">
+            Tag as Disapproved by GM
+          </ion-button>
+          <ion-button color="success" *ngIf="prequeststatus === 'For Printing' && access === 'Final Approver'" (click)="onUpdateApproveStatus('Approved', false)">
+            Tag as Approved by GM
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </form>
+  </ion-grid>
+    <!-- <ion-input labelPlacement="stacked" label="Enter your Emp_ID" placeholder="Emp_ID" formControlName="Emp_ID"></ion-input> -->
+</ion-content>
+
